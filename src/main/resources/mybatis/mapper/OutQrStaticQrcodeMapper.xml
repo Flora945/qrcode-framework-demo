@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jlpay.qrcode.api.db.mapper.OutQrStaticQrcodeMapper">
+    <resultMap id="BaseResultMap" type="com.jlpay.qrcode.api.db.model.OutQrStaticQrcode">
+        <!--@mbg.generated-->
+        <id column="ORDER_ID" jdbcType="VARCHAR" property="orderId"/>
+        <result column="CHANNEL_ORDER_NO" jdbcType="VARCHAR" property="channelOrderNo"/>
+        <result column="MERCH_NO" jdbcType="VARCHAR" property="merchNo"/>
+        <result column="CHANNEL_MERCH_NO" jdbcType="VARCHAR" property="channelMerchNo"/>
+        <result column="TERM_NO" jdbcType="VARCHAR" property="termNo"/>
+        <result column="AMOUNT" jdbcType="DECIMAL" property="amount"/>
+        <result column="ORDER_TIME" jdbcType="TIMESTAMP" property="orderTime"/>
+        <result column="QRCODE_URL" jdbcType="VARCHAR" property="qrcodeUrl"/>
+        <result column="SUBJECT" jdbcType="VARCHAR" property="subject"/>
+        <result column="SUBJECT_DETAIL" jdbcType="VARCHAR" property="subjectDetail"/>
+        <result column="NOTIFY_URL" jdbcType="VARCHAR" property="notifyUrl"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="MER_NAME" jdbcType="VARCHAR" property="merName"/>
+        <result column="CHANNEL_AGENT" jdbcType="VARCHAR" property="channelAgent"/>
+        <result column="QRCODE_TYPE" jdbcType="VARCHAR" property="qrcodeType"/>
+        <result column="STATUS" jdbcType="CHAR" property="status"/>
+        <result column="ORG_CODE" jdbcType="VARCHAR" property="orgCode"/>
+        <result column="DEVICE_SN" jdbcType="VARCHAR" property="deviceSn"/>
+        <result column="NFC_TAG" jdbcType="VARCHAR" property="nfcTag"/>
+        <result column="NFC_ID" jdbcType="VARCHAR" property="nfcId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        ORDER_ID, CHANNEL_ORDER_NO, MERCH_NO, CHANNEL_MERCH_NO, TERM_NO, AMOUNT, ORDER_TIME,
+        QRCODE_URL, SUBJECT, SUBJECT_DETAIL, NOTIFY_URL, CREATE_TIME, UPDATE_TIME, MER_NAME,
+        CHANNEL_AGENT, QRCODE_TYPE, "STATUS", ORG_CODE, DEVICE_SN, NFC_TAG, NFC_ID
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from T_OUT_QR_STATIC_QRCODE
+        where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+    </select>
+    <select id="getValidNfcTag" resultType="com.jlpay.qrcode.api.db.model.OutQrStaticQrcode" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_OUT_QR_STATIC_QRCODE
+        where STATUS = #{status, jdbcType=VARCHAR}
+        and QRCODE_TYPE = '02'
+        and TERM_NO = #{termNo, jdbcType=VARCHAR}
+        and MERCH_NO = #{merchNo,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        <!--@mbg.generated-->
+        delete from T_OUT_QR_STATIC_QRCODE
+        where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.jlpay.qrcode.api.db.model.OutQrStaticQrcode">
+        <!--@mbg.generated-->
+        insert into T_OUT_QR_STATIC_QRCODE (ORDER_ID, CHANNEL_ORDER_NO, MERCH_NO,
+        CHANNEL_MERCH_NO, TERM_NO, AMOUNT,
+        ORDER_TIME, QRCODE_URL, SUBJECT,
+        SUBJECT_DETAIL, NOTIFY_URL, CREATE_TIME,
+        UPDATE_TIME, MER_NAME, CHANNEL_AGENT,
+        QRCODE_TYPE, "STATUS", ORG_CODE,
+        DEVICE_SN, NFC_TAG, NFC_ID)
+        values (#{orderId,jdbcType=VARCHAR}, #{channelOrderNo,jdbcType=VARCHAR}, #{merchNo,jdbcType=VARCHAR},
+        #{channelMerchNo,jdbcType=VARCHAR}, #{termNo,jdbcType=VARCHAR}, #{amount,jdbcType=DECIMAL},
+        #{orderTime,jdbcType=TIMESTAMP}, #{qrcodeUrl,jdbcType=VARCHAR}, #{subject,jdbcType=VARCHAR},
+        #{subjectDetail,jdbcType=VARCHAR}, #{notifyUrl,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP}, #{merName,jdbcType=VARCHAR}, #{channelAgent,jdbcType=VARCHAR},
+        #{qrcodeType,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{orgCode,jdbcType=VARCHAR},
+        #{deviceSn,jdbcType=VARCHAR}, #{nfcTag,jdbcType=VARCHAR}, #{nfcId,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.jlpay.qrcode.api.db.model.OutQrStaticQrcode">
+        <!--@mbg.generated-->
+        insert into T_OUT_QR_STATIC_QRCODE
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">
+                ORDER_ID,
+            </if>
+            <if test="channelOrderNo != null">
+                CHANNEL_ORDER_NO,
+            </if>
+            <if test="merchNo != null">
+                MERCH_NO,
+            </if>
+            <if test="channelMerchNo != null">
+                CHANNEL_MERCH_NO,
+            </if>
+            <if test="termNo != null">
+                TERM_NO,
+            </if>
+            <if test="amount != null">
+                AMOUNT,
+            </if>
+            <if test="orderTime != null">
+                ORDER_TIME,
+            </if>
+            <if test="qrcodeUrl != null">
+                QRCODE_URL,
+            </if>
+            <if test="subject != null">
+                SUBJECT,
+            </if>
+            <if test="subjectDetail != null">
+                SUBJECT_DETAIL,
+            </if>
+            <if test="notifyUrl != null">
+                NOTIFY_URL,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="updateTime != null">
+                UPDATE_TIME,
+            </if>
+            <if test="merName != null">
+                MER_NAME,
+            </if>
+            <if test="channelAgent != null">
+                CHANNEL_AGENT,
+            </if>
+            <if test="qrcodeType != null">
+                QRCODE_TYPE,
+            </if>
+            <if test="status != null">
+                "STATUS",
+            </if>
+            <if test="orgCode != null">
+                ORG_CODE,
+            </if>
+            <if test="deviceSn != null">
+                DEVICE_SN,
+            </if>
+            <if test="nfcTag != null">
+                NFC_TAG,
+            </if>
+            <if test="nfcId != null">
+                NFC_ID,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">
+                #{orderId,jdbcType=VARCHAR},
+            </if>
+            <if test="channelOrderNo != null">
+                #{channelOrderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="merchNo != null">
+                #{merchNo,jdbcType=VARCHAR},
+            </if>
+            <if test="channelMerchNo != null">
+                #{channelMerchNo,jdbcType=VARCHAR},
+            </if>
+            <if test="termNo != null">
+                #{termNo,jdbcType=VARCHAR},
+            </if>
+            <if test="amount != null">
+                #{amount,jdbcType=DECIMAL},
+            </if>
+            <if test="orderTime != null">
+                #{orderTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="qrcodeUrl != null">
+                #{qrcodeUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="subject != null">
+                #{subject,jdbcType=VARCHAR},
+            </if>
+            <if test="subjectDetail != null">
+                #{subjectDetail,jdbcType=VARCHAR},
+            </if>
+            <if test="notifyUrl != null">
+                #{notifyUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="merName != null">
+                #{merName,jdbcType=VARCHAR},
+            </if>
+            <if test="channelAgent != null">
+                #{channelAgent,jdbcType=VARCHAR},
+            </if>
+            <if test="qrcodeType != null">
+                #{qrcodeType,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=CHAR},
+            </if>
+            <if test="orgCode != null">
+                #{orgCode,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceSn != null">
+                #{deviceSn,jdbcType=VARCHAR},
+            </if>
+            <if test="nfcTag != null">
+                #{nfcTag,jdbcType=VARCHAR},
+            </if>
+            <if test="nfcId != null">
+                #{nfcId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.jlpay.qrcode.api.db.model.OutQrStaticQrcode">
+        <!--@mbg.generated-->
+        update T_OUT_QR_STATIC_QRCODE
+        <set>
+            <if test="channelOrderNo != null">
+                CHANNEL_ORDER_NO = #{channelOrderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="merchNo != null">
+                MERCH_NO = #{merchNo,jdbcType=VARCHAR},
+            </if>
+            <if test="channelMerchNo != null">
+                CHANNEL_MERCH_NO = #{channelMerchNo,jdbcType=VARCHAR},
+            </if>
+            <if test="termNo != null">
+                TERM_NO = #{termNo,jdbcType=VARCHAR},
+            </if>
+            <if test="amount != null">
+                AMOUNT = #{amount,jdbcType=DECIMAL},
+            </if>
+            <if test="orderTime != null">
+                ORDER_TIME = #{orderTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="qrcodeUrl != null">
+                QRCODE_URL = #{qrcodeUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="subject != null">
+                SUBJECT = #{subject,jdbcType=VARCHAR},
+            </if>
+            <if test="subjectDetail != null">
+                SUBJECT_DETAIL = #{subjectDetail,jdbcType=VARCHAR},
+            </if>
+            <if test="notifyUrl != null">
+                NOTIFY_URL = #{notifyUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="merName != null">
+                MER_NAME = #{merName,jdbcType=VARCHAR},
+            </if>
+            <if test="channelAgent != null">
+                CHANNEL_AGENT = #{channelAgent,jdbcType=VARCHAR},
+            </if>
+            <if test="qrcodeType != null">
+                QRCODE_TYPE = #{qrcodeType,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                "STATUS" = #{status,jdbcType=CHAR},
+            </if>
+            <if test="orgCode != null">
+                ORG_CODE = #{orgCode,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceSn != null">
+                DEVICE_SN = #{deviceSn,jdbcType=VARCHAR},
+            </if>
+            <if test="nfcTag != null">
+                NFC_TAG = #{nfcTag,jdbcType=VARCHAR},
+            </if>
+            <if test="nfcId != null">
+                NFC_ID = #{nfcId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.jlpay.qrcode.api.db.model.OutQrStaticQrcode">
+        <!--@mbg.generated-->
+        update T_OUT_QR_STATIC_QRCODE
+        set CHANNEL_ORDER_NO = #{channelOrderNo,jdbcType=VARCHAR},
+        MERCH_NO = #{merchNo,jdbcType=VARCHAR},
+        CHANNEL_MERCH_NO = #{channelMerchNo,jdbcType=VARCHAR},
+        TERM_NO = #{termNo,jdbcType=VARCHAR},
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+        ORDER_TIME = #{orderTime,jdbcType=TIMESTAMP},
+        QRCODE_URL = #{qrcodeUrl,jdbcType=VARCHAR},
+        SUBJECT = #{subject,jdbcType=VARCHAR},
+        SUBJECT_DETAIL = #{subjectDetail,jdbcType=VARCHAR},
+        NOTIFY_URL = #{notifyUrl,jdbcType=VARCHAR},
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+        MER_NAME = #{merName,jdbcType=VARCHAR},
+        CHANNEL_AGENT = #{channelAgent,jdbcType=VARCHAR},
+        QRCODE_TYPE = #{qrcodeType,jdbcType=VARCHAR},
+        "STATUS" = #{status,jdbcType=CHAR},
+        ORG_CODE = #{orgCode,jdbcType=VARCHAR},
+        DEVICE_SN = #{deviceSn,jdbcType=VARCHAR},
+        NFC_TAG = #{nfcTag,jdbcType=VARCHAR},
+        NFC_ID = #{nfcId,jdbcType=VARCHAR}
+        where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+    </update>
+</mapper>

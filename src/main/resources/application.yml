@@ -1,0 +1,14 @@
+jlpay:
+  framework:
+    rpc:
+      zookeeper:
+        nodes: zk连接地址（可逗号分隔多个）
+        sessionTimeout: 30000
+        connectionTimeout: 3000
+      client:
+        enable: true
+        asyncClientType: plain
+        syncClientType: plain
+        connectTimeout: 2000
+        maxDataLenth: 104857600
+        asyncInvokeSelectorThreads: 3

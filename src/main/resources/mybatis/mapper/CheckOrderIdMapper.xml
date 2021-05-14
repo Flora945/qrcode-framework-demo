@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jlpay.qrcode.api.db.mapper.CheckOrderIdMapper">
+
+    <insert id="save" parameterType="com.jlpay.qrcode.api.db.model.CheckOrderId">
+      INSERT INTO
+      T_OUT_QR_CHECK_ORDER_ID
+      (
+      ORG_AND_ORDER_ID,CREATE_TIME
+      )
+      VALUES
+      (
+      #{orgAndOrderId},#{createTime}
+      )
+    </insert>
+</mapper>

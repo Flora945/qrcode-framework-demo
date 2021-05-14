@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jlpay.qrcode.api.db.mapper.OutQrPayOrderMapper">
+
+    <insert id="save" parameterType="com.jlpay.qrcode.api.db.model.OutQrPayOrder">
+      INSERT INTO
+      T_OUT_QR_PAY_ORDER
+      (
+      ORDER_ID,ORG_CODE,MERCH_NO,FEE_CALC_TYPE,AMOUNT,BUSI_TYPE,BUSI_SUB_TYPE,ORI_ORDER_ID,OUT_ORDER_ID,NOTIFY_URL,AUTH_CODE,
+      QRCODE,STATUS,ACC_FLAG,FEE,ADD_TIME,TRANS_TIME,UTIME,CHN_ORDER_NO,ORDER_DATE,TRADE_TYPE,APPID,OPENID,PAY_INFO,ADDED_FEE,
+      SETTLE_DATE,CLIENT_IP,REMARK,ORI_OUT_ORDER_ID,TERM_NO,CARD_NO,CARD_TYPE,CARD_FLAG,IS_INTERNAL_CARD,POSITON_INFO,RET_CODE,RET_MSG,
+      CHANNEL_NO,SOURCE,LONGITUDE,LATITUDE,DISCOUNT_AMOUNT,DEVICE_SN,SUBJECT,AREA_CODE,COORD_SYSTEM,DESCRIPTION,SETTLE_TYPE,SETTLE_AMOUNT,
+      EXTER_DISCOUNT_AMOUNT,FINNAL_AMOUNT,DISCOUNT_NAME,COUPON_INFO,OP_USER_ID,OP_SHOP_ID,OUT_DEVICE_SN,QR_VERSION,PROFIT_SHARING,QRCODE_STATE,
+      EXPIRE_DATE
+      )
+      VALUES
+      (
+      #{orderId},#{orgCode},#{merchNo},#{feeCalcType},#{amount},#{busiType},#{busiSubType},#{oriOrderId},#{outOrderId},#{notifyUrl},#{authCode},
+      #{qrcode},#{status},#{accFlag},#{fee},#{addTime},#{transTime},#{utime},#{chnOrderNo},#{orderDate},#{tradeType},#{appid},#{openid},#{payInfo},#{addedFee},
+      #{settleDate},#{clientIp},#{remark},#{oriOutOrderId},#{termNo},#{cardNo},#{cardType},#{cardFlag},#{isInternalCard},#{positonInfo},#{retCode},#{retMsg},
+      #{channelNo},#{source},#{longitude},#{latitude},#{discountAmount},#{deviceSn},#{subject},#{areaCode},#{coordSystem},#{description},#{settleType},
+      #{settleAmount},#{exterDiscountAmount},#{finnalAmount},#{discountName},#{couponInfo},#{opUserId},#{opShopId},#{outDeviceSn},#{qrVersion},#{profitSharing},#{qrcodeState},
+      #{expireDate}
+      )
+    </insert>
+
+    <select id="queryByOutTradeNo" resultType="com.jlpay.qrcode.api.db.model.OutQrPayOrder">
+        SELECT
+        ORDER_ID  as orderId,ORG_CODE  as orgCode,MERCH_NO as merchNo,FEE_CALC_TYPE as feeCalcType,AMOUNT as amount,BUSI_TYPE as busiType,BUSI_SUB_TYPE as busiSubType,
+        ORI_ORDER_ID as oriOrderId,OUT_ORDER_ID as outOrderId,NOTIFY_URL as notifyUrl,AUTH_CODE as authCode,QRCODE as qrcode,STATUS as status,ACC_FLAG as accFlag,FEE as fee,
+        ADD_TIME as addTime,TRANS_TIME as transTime,UTIME as utime,CHN_ORDER_NO as chnOrderNo,ORDER_DATE as orderDate,TRADE_TYPE as tradeType,APPID as appid,OPENID as openid,
+        PAY_INFO as payInfo,ADDED_FEE as addedFee,SETTLE_DATE as settleDate,CLIENT_IP as clientIp,REMARK as remark,ORI_OUT_ORDER_ID as oriOutOrderId,TERM_NO as termNo,
+        CARD_NO as cardNo,CARD_TYPE as cardType,CARD_FLAG as cardFlag,IS_INTERNAL_CARD as isInternalCard,POSITON_INFO as positonInfo,RET_CODE as retCode,RET_MSG as retMsg,
+        CHANNEL_NO as channelNo,SOURCE as source,LONGITUDE as longitude,LATITUDE as latitude,DISCOUNT_AMOUNT as discountAmount,DEVICE_SN as deviceSn,SUBJECT as subject,
+        AREA_CODE as areaCode,COORD_SYSTEM as coordSystem,DESCRIPTION as description,SETTLE_TYPE as settleType,SETTLE_AMOUNT as settleAmount,
+        EXTER_DISCOUNT_AMOUNT as exterDiscountAmount,FINNAL_AMOUNT as finnalAmount,DISCOUNT_NAME as discountName,COUPON_INFO as couponInfo,
+        OP_USER_ID as opUserId,OP_SHOP_ID as opShopId,OUT_DEVICE_SN as outDeviceSn,QR_VERSION as qrVersion,PROFIT_SHARING as profitSharing,QRCODE_STATE as qrcodeState,
+        EXPIRE_DATE as expireDate
+        FROM T_OUT_QR_PAY_ORDER
+        WHERE
+        OUT_ORDER_ID=#{outTradeNo} AND ORG_CODE=#{orgCode}
+    </select>
+
+    <select id="queryByOrderId" resultType="com.jlpay.qrcode.api.db.model.OutQrPayOrder">
+        SELECT
+        ORDER_ID  as orderId,ORG_CODE  as orgCode,MERCH_NO as merchNo,FEE_CALC_TYPE as feeCalcType,AMOUNT as amount,BUSI_TYPE as busiType,BUSI_SUB_TYPE as busiSubType,
+        ORI_ORDER_ID as oriOrderId,OUT_ORDER_ID as outOrderId,NOTIFY_URL as notifyUrl,AUTH_CODE as authCode,QRCODE as qrcode,STATUS as status,ACC_FLAG as accFlag,FEE as fee,
+        ADD_TIME as addTime,TRANS_TIME as transTime,UTIME as utime,CHN_ORDER_NO as chnOrderNo,ORDER_DATE as orderDate,TRADE_TYPE as tradeType,APPID as appid,OPENID as openid,
+        PAY_INFO as payInfo,ADDED_FEE as addedFee,SETTLE_DATE as settleDate,CLIENT_IP as clientIp,REMARK as remark,ORI_OUT_ORDER_ID as oriOutOrderId,TERM_NO as termNo,
+        CARD_NO as cardNo,CARD_TYPE as cardType,CARD_FLAG as cardFlag,IS_INTERNAL_CARD as isInternalCard,POSITON_INFO as positonInfo,RET_CODE as retCode,RET_MSG as retMsg,
+        CHANNEL_NO as channelNo,SOURCE as source,LONGITUDE as longitude,LATITUDE as latitude,DISCOUNT_AMOUNT as discountAmount,DEVICE_SN as deviceSn,SUBJECT as subject,
+        AREA_CODE as areaCode,COORD_SYSTEM as coordSystem,DESCRIPTION as description,SETTLE_TYPE as settleType,SETTLE_AMOUNT as settleAmount,
+        EXTER_DISCOUNT_AMOUNT as exterDiscountAmount,FINNAL_AMOUNT as finnalAmount,DISCOUNT_NAME as discountName,COUPON_INFO as couponInfo,
+        OP_USER_ID as opUserId,OP_SHOP_ID as opShopId,OUT_DEVICE_SN as outDeviceSn,QR_VERSION as qrVersion,PROFIT_SHARING as profitSharing,QRCODE_STATE as qrcodeState,
+        EXPIRE_DATE as expireDate
+        FROM T_OUT_QR_PAY_ORDER
+        WHERE
+        ORDER_ID=#{orderId}
+    </select>
+
+    <select id="queryByOriOrderId" resultType="com.jlpay.qrcode.api.db.model.OutQrPayOrder">
+         SELECT
+        ORDER_ID  as orderId,ORG_CODE  as orgCode,MERCH_NO as merchNo,FEE_CALC_TYPE as feeCalcType,AMOUNT as amount,BUSI_TYPE as busiType,BUSI_SUB_TYPE as busiSubType,
+        ORI_ORDER_ID as oriOrderId,OUT_ORDER_ID as outOrderId,NOTIFY_URL as notifyUrl,AUTH_CODE as authCode,QRCODE as qrcode,STATUS as status,ACC_FLAG as accFlag,FEE as fee,
+        ADD_TIME as addTime,TRANS_TIME as transTime,UTIME as utime,CHN_ORDER_NO as chnOrderNo,ORDER_DATE as orderDate,TRADE_TYPE as tradeType,APPID as appid,OPENID as openid,
+        PAY_INFO as payInfo,ADDED_FEE as addedFee,SETTLE_DATE as settleDate,CLIENT_IP as clientIp,REMARK as remark,ORI_OUT_ORDER_ID as oriOutOrderId,TERM_NO as termNo,
+        CARD_NO as cardNo,CARD_TYPE as cardType,CARD_FLAG as cardFlag,IS_INTERNAL_CARD as isInternalCard,POSITON_INFO as positonInfo,RET_CODE as retCode,RET_MSG as retMsg,
+        CHANNEL_NO as channelNo,SOURCE as source,LONGITUDE as longitude,LATITUDE as latitude,DISCOUNT_AMOUNT as discountAmount,DEVICE_SN as deviceSn,SUBJECT as subject,
+        AREA_CODE as areaCode,COORD_SYSTEM as coordSystem,DESCRIPTION as description,SETTLE_TYPE as settleType,SETTLE_AMOUNT as settleAmount,
+        EXTER_DISCOUNT_AMOUNT as exterDiscountAmount,FINNAL_AMOUNT as finnalAmount,DISCOUNT_NAME as discountName,COUPON_INFO as couponInfo,
+        OP_USER_ID as opUserId,OP_SHOP_ID as opShopId,OUT_DEVICE_SN as outDeviceSn,QR_VERSION as qrVersion,PROFIT_SHARING as profitSharing,QRCODE_STATE as qrcodeState,
+        EXPIRE_DATE as expireDate
+        FROM T_OUT_QR_PAY_ORDER
+        WHERE ORI_ORDER_ID=#{oriOrderId} AND STATUS=#{status}
+    </select>
+
+    <update id="update" parameterType="com.jlpay.qrcode.api.db.model.OutQrPayOrder">
+        UPDATE T_OUT_QR_PAY_ORDER
+        <set>
+            <if test="orgCode!=null and orgCode !=''">ORG_CODE=#{orgCode},</if>
+            <if test="merchNo!=null and merchNo !=''">MERCH_NO=#{merchNo},</if>
+            <if test="feeCalcType!=null and feeCalcType !=''">FEE_CALC_TYPE=#{feeCalcType},</if>
+            <if test="amount!=null">AMOUNT=#{amount},</if>
+            <if test="busiType!=null and busiType !=''">BUSI_TYPE=#{busiType},</if>
+            <if test="busiSubType!=null and busiSubType !=''">BUSI_SUB_TYPE=#{busiSubType},</if>
+            <if test="oriOrderId!=null and oriOrderId !=''">ORI_ORDER_ID=#{oriOrderId},</if>
+            <if test="outOrderId!=null and outOrderId !=''">OUT_ORDER_ID=#{outOrderId},</if>
+            <if test="notifyUrl!=null and notifyUrl !=''">NOTIFY_URL=#{notifyUrl},</if>
+            <if test="authCode!=null and authCode !=''">AUTH_CODE=#{authCode},</if>
+            <if test="qrcode!=null and qrcode !=''">QRCODE=#{qrcode},</if>
+            <if test="status!=null and status !=''">STATUS=#{status},</if>
+            <if test="accFlag!=null and accFlag !=''">ACC_FLAG=#{accFlag},</if>
+            <if test="fee!=null and fee !=''">FEE=#{fee},</if>
+            <if test="addTime!=null">ADD_TIME=#{addTime},</if>
+            <if test="transTime!=null">TRANS_TIME=#{transTime},</if>
+            <if test="utime!=null">UTIME=#{utime},</if>
+            <if test="chnOrderNo!=null and chnOrderNo !=''">CHN_ORDER_NO=#{chnOrderNo},</if>
+            <if test="orderDate!=null">ORDER_DATE=#{orderDate},</if>
+            <if test="tradeType!=null and tradeType !=''">TRADE_TYPE=#{tradeType},</if>
+            <if test="appid!=null and appid !=''">APPID=#{appid},</if>
+            <if test="openid!=null and openid !=''">OPENID=#{openid},</if>
+            <if test="payInfo!=null and payInfo !=''">PAY_INFO=#{payInfo},</if>
+            <if test="addedFee!=null">ADDED_FEE=#{addedFee},</if>
+            <if test="settleDate!=null">SETTLE_DATE=#{settleDate},</if>
+            <if test="clientIp!=null and clientIp !=''">CLIENT_IP=#{clientIp},</if>
+            <if test="oriOutOrderId!=null and oriOutOrderId !=''">ORI_OUT_ORDER_ID=#{oriOutOrderId},</if>
+            <if test="termNo!=null and termNo !=''">TERM_NO=#{termNo},</if>
+            <if test="cardNo!=null and cardNo !=''">CARD_NO=#{cardNo},</if>
+            <if test="cardType!=null and cardType !=''">CARD_TYPE=#{cardType},</if>
+            <if test="cardFlag!=null and cardFlag !=''">CARD_FLAG=#{cardFlag},</if>
+            <if test="isInternalCard!=null and isInternalCard !=''">IS_INTERNAL_CARD=#{isInternalCard},</if>
+            <if test="positonInfo!=null and positonInfo !=''">POSITON_INFO=#{positonInfo},</if>
+            <if test="retCode!=null and retCode !=''">RET_CODE=#{retCode},</if>
+            <if test="retMsg!=null and retMsg !=''">RET_MSG=#{retMsg},</if>
+            <if test="channelNo!=null and channelNo !=''">CHANNEL_NO=#{channelNo},</if>
+            <if test="source!=null and source !=''">SOURCE=#{source},</if>
+            <if test="longitude!=null and longitude !=''">LONGITUDE=#{longitude},</if>
+            <if test="latitude!=null and latitude !=''">LATITUDE=#{latitude},</if>
+            <if test="discountAmount!=null">DISCOUNT_AMOUNT=#{discountAmount},</if>
+            <if test="deviceSn!=null and deviceSn !=''">DEVICE_SN=#{deviceSn},</if>
+            <if test="subject!=null and subject !=''">SUBJECT=#{subject},</if>
+            <if test="areaCode!=null and areaCode !=''">AREA_CODE=#{areaCode},</if>
+            <if test="coordSystem!=null and coordSystem !=''">COORD_SYSTEM=#{coordSystem},</if>
+            <if test="description!=null and description !=''">DESCRIPTION=#{description},</if>
+            <if test="settleType!=null and settleType !=''">SETTLE_TYPE=#{settleType},</if>
+            <if test="settleAmount!=null">SETTLE_AMOUNT=#{settleAmount},</if>
+            <if test="exterDiscountAmount!=null">EXTER_DISCOUNT_AMOUNT=#{exterDiscountAmount},</if>
+            <if test="finnalAmount!=null">FINNAL_AMOUNT=#{finnalAmount},</if>
+            <if test="discountName!=null and discountName !=''">DISCOUNT_NAME=#{discountName},</if>
+            <if test="couponInfo!=null and couponInfo !=''">COUPON_INFO=#{couponInfo},</if>
+            <if test="opUserId!=null and opUserId !=''">OP_USER_ID=#{opUserId},</if>
+            <if test="opShopId!=null and opShopId !=''">OP_SHOP_ID=#{opShopId},</if>
+            <if test="outDeviceSn!=null and outDeviceSn !=''">OUT_DEVICE_SN=#{outDeviceSn},</if>
+            <if test="qrVersion!=null and qrVersion !=''">QR_VERSION=#{qrVersion},</if>
+            <if test="profitSharing!=null and profitSharing !=''">PROFIT_SHARING=#{profitSharing},</if>
+            <if test="qrcodeState!=null and qrcodeState !=''">QRCODE_STATE=#{qrcodeState},</if>
+            <if test="expireDate!=null">EXPIRE_DATE=#{expireDate}</if>
+
+        </set>
+        <where>
+            ORDER_ID=#{orderId}
+        </where>
+    </update>
+</mapper>

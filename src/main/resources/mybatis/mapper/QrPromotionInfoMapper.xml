@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jlpay.qrcode.api.db.mapper.QrPromotionInfoMapper">
+
+    <insert id="save" parameterType="com.jlpay.qrcode.api.db.model.QrPromotionInfo">
+      INSERT INTO
+      T_QR_PROMOTION_INFO
+      (
+      ORDER_ID,GOODS_TAG,GOODS_DATA,COUPON_INFO,DCT_GOODS_INFO,CREATE_TIME,UPDATE_TIME
+      )
+      VALUES
+      (
+      #{orderId},#{goodsTag},#{goodsData},#{couponInfo},#{dctGoodsInfo},#{createTime},#{updateTime}
+      )
+    </insert>
+
+    <select id="queryByOrderId" resultType="com.jlpay.qrcode.api.db.model.QrPromotionInfo">
+        SELECT
+        ORDER_ID  as orderId,
+        GOODS_TAG  as goodsTag,
+        GOODS_DATA  as goodsData,
+        COUPON_INFO  as couponInfo,
+        DCT_GOODS_INFO  as dctGoodsInfo,
+        CREATE_TIME  as createTime,
+        UPDATE_TIME as updateTime
+        FROM T_QR_PROMOTION_INFO
+        WHERE
+        ORDER_ID=#{orderId}
+    </select>
+
+    <update id="update" parameterType="com.jlpay.qrcode.api.db.model.QrPromotionInfo">
+        UPDATE T_QR_PROMOTION_INFO
+        <set>
+            <if test="goodsTag!=null and goodsTag !=''">GOODS_TAG=#{goodsTag},</if>
+            <if test="goodsData!=null and goodsData !=''">GOODS_DATA=#{goodsData},</if>
+            <if test="couponInfo!=null and couponInfo !=''">COUPON_INFO=#{couponInfo},</if>
+            <if test="dctGoodsInfo!=null and dctGoodsInfo !=''">DCT_GOODS_INFO=#{dctGoodsInfo},</if>
+            <if test="createTime!=null">CREATE_TIME=#{createTime},</if>
+            <if test="updateTime!=null">UPDATE_TIME=#{updateTime}</if>
+        </set>
+        <where>
+            ORDER_ID=#{orderId}
+        </where>
+    </update>
+</mapper>

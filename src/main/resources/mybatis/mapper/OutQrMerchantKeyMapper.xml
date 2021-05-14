@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jlpay.qrcode.api.db.mapper.OutQrMerchantKeyMapper">
+  <resultMap id="BaseResultMap" type="com.jlpay.qrcode.api.db.model.OutQrMerchantKey">
+    <!--@mbg.generated-->
+    <!--@Table T_OUT_QR_MERCHANT_KEY-->
+    <id column="ORG_CODE" jdbcType="VARCHAR" property="orgCode" />
+    <result column="MERCH_NO" jdbcType="VARCHAR" property="merchNo" />
+    <result column="SYS_PRI_KEY" jdbcType="VARCHAR" property="sysPriKey" />
+    <result column="SYS_PUB_KEY" jdbcType="VARCHAR" property="sysPubKey" />
+    <result column="MER_PUB_KEY" jdbcType="VARCHAR" property="merPubKey" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="SIGN_KEY" jdbcType="VARCHAR" property="signKey" />
+    <result column="GROUP_NO" jdbcType="VARCHAR" property="groupNo" />
+    <result column="ACCESS_TYPE" jdbcType="CHAR" property="accessType" />
+    <result column="ORG_NAME" jdbcType="VARCHAR" property="orgName" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="ORG_SOURCE" jdbcType="CHAR" property="orgSource" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="UPDATE_USER" jdbcType="VARCHAR" property="updateUser" />
+    <result column="CREATE_USER" jdbcType="VARCHAR" property="createUser" />
+    <result column="TRANS_TYPE" jdbcType="VARCHAR" property="transType" />
+    <result column="IF_CHECK_MERCH" jdbcType="CHAR" property="ifCheckMerch" />
+    <result column="SYS_VERSION" jdbcType="CHAR" property="sysVersion" />
+    <result column="IF_CHECK_TERM" jdbcType="CHAR" property="ifCheckTerm" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    ORG_CODE, MERCH_NO, SYS_PRI_KEY, SYS_PUB_KEY, MER_PUB_KEY, "STATUS", CREATE_DATE, 
+    SIGN_KEY, GROUP_NO, ACCESS_TYPE, ORG_NAME, REMARK, ORG_SOURCE, UPDATE_TIME, UPDATE_USER, 
+    CREATE_USER, TRANS_TYPE, IF_CHECK_MERCH, SYS_VERSION, IF_CHECK_TERM
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from T_OUT_QR_MERCHANT_KEY
+    where ORG_CODE = #{orgCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    delete from T_OUT_QR_MERCHANT_KEY
+    where ORG_CODE = #{orgCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jlpay.qrcode.api.db.model.OutQrMerchantKey">
+    <!--@mbg.generated-->
+    insert into T_OUT_QR_MERCHANT_KEY (ORG_CODE, MERCH_NO, SYS_PRI_KEY, 
+      SYS_PUB_KEY, MER_PUB_KEY, "STATUS", 
+      CREATE_DATE, SIGN_KEY, GROUP_NO, 
+      ACCESS_TYPE, ORG_NAME, REMARK, 
+      ORG_SOURCE, UPDATE_TIME, UPDATE_USER, 
+      CREATE_USER, TRANS_TYPE, IF_CHECK_MERCH, 
+      SYS_VERSION, IF_CHECK_TERM)
+    values (#{orgCode,jdbcType=VARCHAR}, #{merchNo,jdbcType=VARCHAR}, #{sysPriKey,jdbcType=VARCHAR}, 
+      #{sysPubKey,jdbcType=VARCHAR}, #{merPubKey,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{signKey,jdbcType=VARCHAR}, #{groupNo,jdbcType=VARCHAR}, 
+      #{accessType,jdbcType=CHAR}, #{orgName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{orgSource,jdbcType=CHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=VARCHAR}, #{transType,jdbcType=VARCHAR}, #{ifCheckMerch,jdbcType=CHAR}, 
+      #{sysVersion,jdbcType=CHAR}, #{ifCheckTerm,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jlpay.qrcode.api.db.model.OutQrMerchantKey">
+    <!--@mbg.generated-->
+    insert into T_OUT_QR_MERCHANT_KEY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orgCode != null">
+        ORG_CODE,
+      </if>
+      <if test="merchNo != null">
+        MERCH_NO,
+      </if>
+      <if test="sysPriKey != null">
+        SYS_PRI_KEY,
+      </if>
+      <if test="sysPubKey != null">
+        SYS_PUB_KEY,
+      </if>
+      <if test="merPubKey != null">
+        MER_PUB_KEY,
+      </if>
+      <if test="status != null">
+        "STATUS",
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="signKey != null">
+        SIGN_KEY,
+      </if>
+      <if test="groupNo != null">
+        GROUP_NO,
+      </if>
+      <if test="accessType != null">
+        ACCESS_TYPE,
+      </if>
+      <if test="orgName != null">
+        ORG_NAME,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="orgSource != null">
+        ORG_SOURCE,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="updateUser != null">
+        UPDATE_USER,
+      </if>
+      <if test="createUser != null">
+        CREATE_USER,
+      </if>
+      <if test="transType != null">
+        TRANS_TYPE,
+      </if>
+      <if test="ifCheckMerch != null">
+        IF_CHECK_MERCH,
+      </if>
+      <if test="sysVersion != null">
+        SYS_VERSION,
+      </if>
+      <if test="ifCheckTerm != null">
+        IF_CHECK_TERM,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orgCode != null">
+        #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="merchNo != null">
+        #{merchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="sysPriKey != null">
+        #{sysPriKey,jdbcType=VARCHAR},
+      </if>
+      <if test="sysPubKey != null">
+        #{sysPubKey,jdbcType=VARCHAR},
+      </if>
+      <if test="merPubKey != null">
+        #{merPubKey,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signKey != null">
+        #{signKey,jdbcType=VARCHAR},
+      </if>
+      <if test="groupNo != null">
+        #{groupNo,jdbcType=VARCHAR},
+      </if>
+      <if test="accessType != null">
+        #{accessType,jdbcType=CHAR},
+      </if>
+      <if test="orgName != null">
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="orgSource != null">
+        #{orgSource,jdbcType=CHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="transType != null">
+        #{transType,jdbcType=VARCHAR},
+      </if>
+      <if test="ifCheckMerch != null">
+        #{ifCheckMerch,jdbcType=CHAR},
+      </if>
+      <if test="sysVersion != null">
+        #{sysVersion,jdbcType=CHAR},
+      </if>
+      <if test="ifCheckTerm != null">
+        #{ifCheckTerm,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jlpay.qrcode.api.db.model.OutQrMerchantKey">
+    <!--@mbg.generated-->
+    update T_OUT_QR_MERCHANT_KEY
+    <set>
+      <if test="merchNo != null">
+        MERCH_NO = #{merchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="sysPriKey != null">
+        SYS_PRI_KEY = #{sysPriKey,jdbcType=VARCHAR},
+      </if>
+      <if test="sysPubKey != null">
+        SYS_PUB_KEY = #{sysPubKey,jdbcType=VARCHAR},
+      </if>
+      <if test="merPubKey != null">
+        MER_PUB_KEY = #{merPubKey,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        "STATUS" = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signKey != null">
+        SIGN_KEY = #{signKey,jdbcType=VARCHAR},
+      </if>
+      <if test="groupNo != null">
+        GROUP_NO = #{groupNo,jdbcType=VARCHAR},
+      </if>
+      <if test="accessType != null">
+        ACCESS_TYPE = #{accessType,jdbcType=CHAR},
+      </if>
+      <if test="orgName != null">
+        ORG_NAME = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="orgSource != null">
+        ORG_SOURCE = #{orgSource,jdbcType=CHAR},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="transType != null">
+        TRANS_TYPE = #{transType,jdbcType=VARCHAR},
+      </if>
+      <if test="ifCheckMerch != null">
+        IF_CHECK_MERCH = #{ifCheckMerch,jdbcType=CHAR},
+      </if>
+      <if test="sysVersion != null">
+        SYS_VERSION = #{sysVersion,jdbcType=CHAR},
+      </if>
+      <if test="ifCheckTerm != null">
+        IF_CHECK_TERM = #{ifCheckTerm,jdbcType=CHAR},
+      </if>
+    </set>
+    where ORG_CODE = #{orgCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jlpay.qrcode.api.db.model.OutQrMerchantKey">
+    <!--@mbg.generated-->
+    update T_OUT_QR_MERCHANT_KEY
+    set MERCH_NO = #{merchNo,jdbcType=VARCHAR},
+      SYS_PRI_KEY = #{sysPriKey,jdbcType=VARCHAR},
+      SYS_PUB_KEY = #{sysPubKey,jdbcType=VARCHAR},
+      MER_PUB_KEY = #{merPubKey,jdbcType=VARCHAR},
+      "STATUS" = #{status,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      SIGN_KEY = #{signKey,jdbcType=VARCHAR},
+      GROUP_NO = #{groupNo,jdbcType=VARCHAR},
+      ACCESS_TYPE = #{accessType,jdbcType=CHAR},
+      ORG_NAME = #{orgName,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      ORG_SOURCE = #{orgSource,jdbcType=CHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      TRANS_TYPE = #{transType,jdbcType=VARCHAR},
+      IF_CHECK_MERCH = #{ifCheckMerch,jdbcType=CHAR},
+      SYS_VERSION = #{sysVersion,jdbcType=CHAR},
+      IF_CHECK_TERM = #{ifCheckTerm,jdbcType=CHAR}
+    where ORG_CODE = #{orgCode,jdbcType=VARCHAR}
+  </update>
+</mapper>
