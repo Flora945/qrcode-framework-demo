@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jlpay.qrcode.api.db.mapper.OutQrPayOrderMapper">
+<mapper namespace="com.jlpay.qrcode.external.db.mapper.OutQrPayOrderMapper">
 
-    <insert id="save" parameterType="com.jlpay.qrcode.api.db.model.OutQrPayOrder">
+    <insert id="save" parameterType="com.jlpay.qrcode.external.db.model.OutQrPayOrder">
       INSERT INTO
       T_OUT_QR_PAY_ORDER
       (
@@ -25,7 +25,7 @@
       )
     </insert>
 
-    <select id="queryByOutTradeNo" resultType="com.jlpay.qrcode.api.db.model.OutQrPayOrder">
+    <select id="queryByOutTradeNo" resultType="com.jlpay.qrcode.external.db.model.OutQrPayOrder">
         SELECT
         ORDER_ID  as orderId,ORG_CODE  as orgCode,MERCH_NO as merchNo,FEE_CALC_TYPE as feeCalcType,AMOUNT as amount,BUSI_TYPE as busiType,BUSI_SUB_TYPE as busiSubType,
         ORI_ORDER_ID as oriOrderId,OUT_ORDER_ID as outOrderId,NOTIFY_URL as notifyUrl,AUTH_CODE as authCode,QRCODE as qrcode,STATUS as status,ACC_FLAG as accFlag,FEE as fee,
@@ -42,7 +42,7 @@
         OUT_ORDER_ID=#{outTradeNo} AND ORG_CODE=#{orgCode}
     </select>
 
-    <select id="queryByOrderId" resultType="com.jlpay.qrcode.api.db.model.OutQrPayOrder">
+    <select id="queryByOrderId" resultType="com.jlpay.qrcode.external.db.model.OutQrPayOrder">
         SELECT
         ORDER_ID  as orderId,ORG_CODE  as orgCode,MERCH_NO as merchNo,FEE_CALC_TYPE as feeCalcType,AMOUNT as amount,BUSI_TYPE as busiType,BUSI_SUB_TYPE as busiSubType,
         ORI_ORDER_ID as oriOrderId,OUT_ORDER_ID as outOrderId,NOTIFY_URL as notifyUrl,AUTH_CODE as authCode,QRCODE as qrcode,STATUS as status,ACC_FLAG as accFlag,FEE as fee,
@@ -59,7 +59,7 @@
         ORDER_ID=#{orderId}
     </select>
 
-    <select id="queryByOriOrderId" resultType="com.jlpay.qrcode.api.db.model.OutQrPayOrder">
+    <select id="queryByOriOrderId" resultType="com.jlpay.qrcode.external.db.model.OutQrPayOrder">
          SELECT
         ORDER_ID  as orderId,ORG_CODE  as orgCode,MERCH_NO as merchNo,FEE_CALC_TYPE as feeCalcType,AMOUNT as amount,BUSI_TYPE as busiType,BUSI_SUB_TYPE as busiSubType,
         ORI_ORDER_ID as oriOrderId,OUT_ORDER_ID as outOrderId,NOTIFY_URL as notifyUrl,AUTH_CODE as authCode,QRCODE as qrcode,STATUS as status,ACC_FLAG as accFlag,FEE as fee,
@@ -75,7 +75,7 @@
         WHERE ORI_ORDER_ID=#{oriOrderId} AND STATUS=#{status}
     </select>
 
-    <update id="update" parameterType="com.jlpay.qrcode.api.db.model.OutQrPayOrder">
+    <update id="update" parameterType="com.jlpay.qrcode.external.db.model.OutQrPayOrder">
         UPDATE T_OUT_QR_PAY_ORDER
         <set>
             <if test="orgCode!=null and orgCode !=''">ORG_CODE=#{orgCode},</if>

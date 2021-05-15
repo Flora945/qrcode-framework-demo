@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jlpay.qrcode.api.db.mapper.OutQrMerchantKeyMapper">
-  <resultMap id="BaseResultMap" type="com.jlpay.qrcode.api.db.model.OutQrMerchantKey">
+<mapper namespace="com.jlpay.qrcode.external.db.mapper.OutQrMerchantKeyMapper">
+  <resultMap id="BaseResultMap" type="com.jlpay.qrcode.external.db.model.OutQrMerchantKey">
     <!--@mbg.generated-->
     <!--@Table T_OUT_QR_MERCHANT_KEY-->
     <id column="ORG_CODE" jdbcType="VARCHAR" property="orgCode" />
@@ -43,7 +43,7 @@
     delete from T_OUT_QR_MERCHANT_KEY
     where ORG_CODE = #{orgCode,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.jlpay.qrcode.api.db.model.OutQrMerchantKey">
+  <insert id="insert" parameterType="com.jlpay.qrcode.external.db.model.OutQrMerchantKey">
     <!--@mbg.generated-->
     insert into T_OUT_QR_MERCHANT_KEY (ORG_CODE, MERCH_NO, SYS_PRI_KEY, 
       SYS_PUB_KEY, MER_PUB_KEY, "STATUS", 
@@ -60,7 +60,7 @@
       #{createUser,jdbcType=VARCHAR}, #{transType,jdbcType=VARCHAR}, #{ifCheckMerch,jdbcType=CHAR}, 
       #{sysVersion,jdbcType=CHAR}, #{ifCheckTerm,jdbcType=CHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.jlpay.qrcode.api.db.model.OutQrMerchantKey">
+  <insert id="insertSelective" parameterType="com.jlpay.qrcode.external.db.model.OutQrMerchantKey">
     <!--@mbg.generated-->
     insert into T_OUT_QR_MERCHANT_KEY
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -188,7 +188,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jlpay.qrcode.api.db.model.OutQrMerchantKey">
+  <update id="updateByPrimaryKeySelective" parameterType="com.jlpay.qrcode.external.db.model.OutQrMerchantKey">
     <!--@mbg.generated-->
     update T_OUT_QR_MERCHANT_KEY
     <set>
@@ -252,7 +252,7 @@
     </set>
     where ORG_CODE = #{orgCode,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jlpay.qrcode.api.db.model.OutQrMerchantKey">
+  <update id="updateByPrimaryKey" parameterType="com.jlpay.qrcode.external.db.model.OutQrMerchantKey">
     <!--@mbg.generated-->
     update T_OUT_QR_MERCHANT_KEY
     set MERCH_NO = #{merchNo,jdbcType=VARCHAR},

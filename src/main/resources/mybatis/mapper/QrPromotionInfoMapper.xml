@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jlpay.qrcode.api.db.mapper.QrPromotionInfoMapper">
+<mapper namespace="com.jlpay.qrcode.external.db.mapper.QrPromotionInfoMapper">
 
-    <insert id="save" parameterType="com.jlpay.qrcode.api.db.model.QrPromotionInfo">
+    <insert id="save" parameterType="com.jlpay.qrcode.external.db.model.QrPromotionInfo">
       INSERT INTO
       T_QR_PROMOTION_INFO
       (
@@ -15,7 +15,7 @@
       )
     </insert>
 
-    <select id="queryByOrderId" resultType="com.jlpay.qrcode.api.db.model.QrPromotionInfo">
+    <select id="queryByOrderId" resultType="com.jlpay.qrcode.external.db.model.QrPromotionInfo">
         SELECT
         ORDER_ID  as orderId,
         GOODS_TAG  as goodsTag,
@@ -29,7 +29,7 @@
         ORDER_ID=#{orderId}
     </select>
 
-    <update id="update" parameterType="com.jlpay.qrcode.api.db.model.QrPromotionInfo">
+    <update id="update" parameterType="com.jlpay.qrcode.external.db.model.QrPromotionInfo">
         UPDATE T_QR_PROMOTION_INFO
         <set>
             <if test="goodsTag!=null and goodsTag !=''">GOODS_TAG=#{goodsTag},</if>

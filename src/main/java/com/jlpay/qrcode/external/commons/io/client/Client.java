@@ -7,7 +7,7 @@ package com.jlpay.qrcode.external.commons.io.client;
 public interface Client<R> {
 
     /**
-     * perform a client request
+     * execute a client request
      *
      * @param callback callback handler
      */

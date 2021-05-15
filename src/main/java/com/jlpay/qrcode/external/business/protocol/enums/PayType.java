@@ -1,6 +1,6 @@
 package com.jlpay.qrcode.external.business.protocol.enums;
 
-import com.jlpay.qrcode.api.db.model.OutQrPayOrder;
+import com.jlpay.qrcode.external.db.model.OutQrPayOrder;
 
 /**
  * 支付类型

@@ -20,5 +20,5 @@ public interface BusiProcessContext {
 
     String getLogId();
 
-    boolean completed();
+    boolean isCompleted();
 }

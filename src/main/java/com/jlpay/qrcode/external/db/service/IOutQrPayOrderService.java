@@ -1,6 +1,6 @@
 package com.jlpay.qrcode.external.db.service;
 
-import com.jlpay.qrcode.external.business.dependency.protocol.response.ChannelTranNotifyResponse;
+import com.jlpay.qrcode.external.business.services.protocol.response.ChannelTranNotifyResponse;
 import com.jlpay.qrcode.external.business.protocol.request.BaseTransRequest;
 import com.jlpay.qrcode.external.business.protocol.request.RefundTransRequest;
 import com.jlpay.qrcode.external.db.model.OutQrPayOrder;

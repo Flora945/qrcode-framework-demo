@@ -1,14 +1,50 @@
+apollo:
+  bootstrap:
+    eagerLoad:
+      enabled: true
+    enabled: true
+    #    namespaces: application,FRAMEWORK.springboot2-tomcat,FRAMEWORK.springboot2-redis,FRAMEWORK.springboot2-rocketmq,FRAMEWORK.springboot2-log,FRAMEWORK.springboot2-sleuth,FRAMEWORK.springboot2-management
+    namespaces: application,FRAMEWORK.springboot2-management
+  #apollo的地址    JVM   -Dapollo.meta=http://172.20.35.50:8080  环境变量 APOLLO_META
+#  meta: http://apollo-configservice.jlpay.io:30342
+app:
+  #对应apollo里面创建的项目名  jvm -Dapp.id 环境变量 APP_ID
+  id: backend.ext-qrcode-api
+
+config:
+  event-report:
+    request-url: http://172.20.20.31:31536/monitorException
+    service-name: ${spring.application.name}
+    model: TN
+  executors:
+    delayedExecutor:
+      queue-size: 10
+      executor:
+        core-pool-size: 20
+        max-pool-size: 20
+        queue-capacity: 100
+        keep-alive-seconds: 100
+        thread-name-prefix: delay-exec-
+    business:
+      core-pool-size: 20
+      max-pool-size: 20
+      queue-capacity: 100
+      keep-alive-seconds: 100
+      thread-name-prefix: busi-exec-
+  dependency:
+    sign-service:
+      request-path: /utils/cert
 jlpay:
   framework:
     rpc:
       zookeeper:
-        nodes: zk连接地址（可逗号分隔多个）
+        nodes: 172.20.11.100:2181
         sessionTimeout: 30000
         connectionTimeout: 3000
       client:
         enable: true
         asyncClientType: plain
         syncClientType: plain
-        connectTimeout: 2000
+        connectTimeout: 3000
         maxDataLenth: 104857600
         asyncInvokeSelectorThreads: 3

@@ -1,7 +1,7 @@
 package com.jlpay.qrcode.external.business.protocol.request;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.jlpay.qrcode.external.business.dependency.protocol.response.LMerchInfoResponse;
+import com.jlpay.qrcode.external.business.services.protocol.response.LMerchInfoResponse;
 import com.jlpay.qrcode.external.commons.exceptions.assertion.ParamAssert;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;

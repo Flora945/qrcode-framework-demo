@@ -19,12 +19,9 @@ import org.slf4j.MDC;
 import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.PostConstruct;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -49,6 +46,7 @@ public class EventReporter {
 
     private PassiveExpiringMap<String, Object> eventReportRecord;
 
+    @PostConstruct
     public void postConstruct() {
         eventReportRecord = new PassiveExpiringMap<>(properties.getDropDuplicatesIn().toMillis(), new ConcurrentHashMap<>(15));
     }
@@ -69,11 +67,12 @@ public class EventReporter {
         EventReportRequest request = buildRequest(reportSpec);
         // send request
         return httpTool.preparePost()
+                .url(properties.getRequestUrl())
                 .logId(request.getLogId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .requestBody(request)
                 .requestTimeout(properties.getRequestTimeout())
-                .perform()
+                .execute()
                 .map(resp -> JSON.parseObject(resp, DefaultResponse.class))
                 .doOnNext(resp -> record(keyword, resp));
 
@@ -115,7 +114,7 @@ public class EventReporter {
     }
 
     /**
-     * a specification to perform a event report
+     * a specification to execute a event report
      */
     @Getter(AccessLevel.PRIVATE)
     public class EventReportSpec {

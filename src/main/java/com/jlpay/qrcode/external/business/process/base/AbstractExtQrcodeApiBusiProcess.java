@@ -2,9 +2,9 @@ package com.jlpay.qrcode.external.business.process.base;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.jlpay.qrcode.external.business.dependency.MerchInfoService;
-import com.jlpay.qrcode.external.business.dependency.SignService;
-import com.jlpay.qrcode.external.business.dependency.protocol.response.LMerchInfoResponse;
+import com.jlpay.qrcode.external.business.services.MerchInfoService;
+import com.jlpay.qrcode.external.business.services.SignService;
+import com.jlpay.qrcode.external.business.services.protocol.response.LMerchInfoResponse;
 import com.jlpay.qrcode.external.business.protocol.enums.TransType;
 import com.jlpay.qrcode.external.business.protocol.request.BaseTransRequest;
 import com.jlpay.qrcode.external.commons.exceptions.ExceptionCodes;
@@ -185,7 +185,7 @@ public abstract class AbstractExtQrcodeApiBusiProcess<R extends BaseTransRequest
     @Override
     protected void completeResponse(Object response) {
         if (!needSignature) {
-            completeResponse(response);
+            super.completeResponse(response);
             return;
         }
         log.debug("直接应答接入方,对应答报文加签");

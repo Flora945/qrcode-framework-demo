@@ -1,8 +1,8 @@
 package com.jlpay.qrcode.external.db.service;
 
 import com.alibaba.fastjson.JSON;
-import com.jlpay.qrcode.external.business.dependency.OrderSystemService;
-import com.jlpay.qrcode.external.business.dependency.protocol.response.ChannelTranNotifyResponse;
+import com.jlpay.qrcode.external.business.services.OrderSystemService;
+import com.jlpay.qrcode.external.business.services.protocol.response.ChannelTranNotifyResponse;
 import com.jlpay.qrcode.external.business.protocol.enums.BusiSubType;
 import com.jlpay.qrcode.external.business.protocol.enums.PayType;
 import com.jlpay.qrcode.external.business.protocol.enums.TradeType;
@@ -22,7 +22,6 @@ import com.jlpay.utils.exception.BusiException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 

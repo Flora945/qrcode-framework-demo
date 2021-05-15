@@ -11,4 +11,6 @@ public final class ExceptionMessages {
     }
 
     public static final String SYSTEM_EXCEPTION_MESSAGE = "系统异常";
+
+    public static final String TRANSACTION_TIMEOUT_RETRY = "交易超时,请重试";
 }

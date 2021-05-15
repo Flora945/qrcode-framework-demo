@@ -1,9 +1,9 @@
 package com.jlpay.qrcode.external.db.service;
 
 import com.alibaba.fastjson.JSON;
+import com.jlpay.qrcode.external.business.protocol.enums.OutQrStaticQrcodeEnum;
 import com.jlpay.qrcode.external.db.mapper.OutQrStaticQrcodeMapper;
 import com.jlpay.qrcode.external.db.model.OutQrStaticQrcode;
-import com.jlpay.qrcode.api.protocol.enums.OutQrStaticQrcodeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

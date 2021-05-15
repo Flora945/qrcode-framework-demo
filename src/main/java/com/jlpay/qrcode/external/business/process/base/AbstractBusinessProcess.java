@@ -11,6 +11,7 @@ import com.jlpay.qrcode.external.commons.exceptions.def.BusiException;
 import com.jlpay.qrcode.external.commons.exceptions.def.SystemException;
 import com.jlpay.qrcode.external.commons.io.client.ReactiveHttpTool;
 import com.jlpay.qrcode.external.commons.io.protocol.DefaultResponse;
+import com.jlpay.qrcode.external.config.properties.BusinessProperties;
 import com.jlpay.qrcode.external.controller.BusiProcessContext;
 import com.jlpay.qrcode.external.controller.BusinessProcessor;
 import lombok.AccessLevel;
@@ -20,7 +21,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.GenericTypeResolver;
 import org.springframework.http.MediaType;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.validation.DirectFieldBindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.SmartValidator;
@@ -39,7 +42,6 @@ import java.util.function.Consumer;
  * @since 2021/5/4
  */
 @Slf4j
-@RequiredArgsConstructor
 public abstract class AbstractBusinessProcess<R> implements BusinessProcessor {
 
     private EventReporter eventReporter;
@@ -50,8 +52,7 @@ public abstract class AbstractBusinessProcess<R> implements BusinessProcessor {
 
     private Executor executor;
 
-    @Value("${config.business.default-invoke-timeout:34s}")
-    private Duration defaultInvokeTimeout;
+    private BusinessProperties businessProperties;
 
     private R request;
 
@@ -112,12 +113,10 @@ public abstract class AbstractBusinessProcess<R> implements BusinessProcessor {
                 .send();
     }
 
-    @SuppressWarnings("unchecked")
     protected R parseRequest() {
-        ServiceConfig serviceConfigAnno = getClass().getAnnotation(ServiceConfig.class);
-        Assert.isTrue(serviceConfigAnno != null, ExceptionCodes.SYSTEM_EXCEPTION, ExceptionMessages.SYSTEM_EXCEPTION_MESSAGE, "没有配置ServiceConfig");
-        Class<R> requestType = (Class<R>) serviceConfigAnno.requestType();
-        return processContext.getParsedRequest().toJavaObject(requestType);
+        Class<?> requestType = GenericTypeResolver.resolveTypeArgument(getClass(), AbstractBusinessProcess.class);
+        //noinspection unchecked
+        return (R) processContext.getParsedRequest().toJavaObject(requestType);
     }
 
     /**
@@ -134,11 +133,11 @@ public abstract class AbstractBusinessProcess<R> implements BusinessProcessor {
                 .contentType(MediaType.APPLICATION_JSON)
                 .requestTimeout(invokeSpec.getRequestTimeout())
                 .requestBody(invokeSpec.getRequestBody())
-                .perform()
+                .execute()
                 .map(resp -> JSON.parseObject(resp, invokeSpec.getResponseType()))
                 .doOnError(e -> executor.execute(() -> invokeSpec.errorHandler.accept(e)))
                 .subscribe(response -> executor.execute(() -> {
-                    Assert.isTrue(!processContext.completed(), ExceptionCodes.SYSTEM_EXCEPTION, ExceptionMessages.SYSTEM_EXCEPTION_MESSAGE,
+                    Assert.isTrue(!processContext.isCompleted(), ExceptionCodes.SYSTEM_EXCEPTION, ExceptionMessages.SYSTEM_EXCEPTION_MESSAGE,
                             "会话已经超时，不再处理业务，需要代码使用者维护会话超时时间，会话超时时间不能小于请求建立链接和应答处理时常");
                     try {
                         invokeSpec.responseHandler.accept(response);
@@ -168,6 +167,11 @@ public abstract class AbstractBusinessProcess<R> implements BusinessProcessor {
     @Autowired
     public void setExecutor(@Qualifier("business") Executor executor) {
         this.executor = executor;
+    }
+
+    @Autowired
+    public void setBusinessProperties(BusinessProperties businessProperties) {
+        this.businessProperties = businessProperties;
     }
 
     @Autowired
@@ -203,7 +207,7 @@ public abstract class AbstractBusinessProcess<R> implements BusinessProcessor {
          * 请求超时时间
          */
         @NotNull
-        private Duration requestTimeout = defaultInvokeTimeout;
+        private Duration requestTimeout = businessProperties.getDefaultInvokeTimeout();
 
         /**
          * 请求内容

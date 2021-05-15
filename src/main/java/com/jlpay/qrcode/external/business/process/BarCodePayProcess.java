@@ -2,13 +2,19 @@ package com.jlpay.qrcode.external.business.process;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.jlpay.qrcode.external.business.dependency.protocol.request.ChannelBarCodeRequest;
-import com.jlpay.qrcode.external.business.dependency.protocol.request.ChannelBaseRequest;
-import com.jlpay.qrcode.external.business.dependency.protocol.response.ChannelBaseResponse;
+import com.jlpay.qrcode.external.business.services.DelayCancelService;
+import com.jlpay.qrcode.external.business.services.TimedQueryService;
+import com.jlpay.qrcode.external.business.services.protocol.DelayCancelMessage;
+import com.jlpay.qrcode.external.business.services.protocol.request.ChannelBarCodeRequest;
+import com.jlpay.qrcode.external.business.services.protocol.request.ChannelBaseRequest;
+import com.jlpay.qrcode.external.business.services.protocol.response.ChannelBaseResponse;
 import com.jlpay.qrcode.external.business.process.base.AbstractExtQrcodeApiBusiProcess;
 import com.jlpay.qrcode.external.business.protocol.enums.PayType;
 import com.jlpay.qrcode.external.business.protocol.request.MicropayRequest;
 import com.jlpay.qrcode.external.business.protocol.response.MicropayResponse;
+import com.jlpay.qrcode.external.commons.exceptions.ExceptionCodes;
+import com.jlpay.qrcode.external.commons.exceptions.ExceptionMessages;
+import com.jlpay.qrcode.external.commons.io.client.ReactiveHttpTool;
 import com.jlpay.qrcode.external.config.properties.QrcodeApiProperties;
 import com.jlpay.qrcode.external.config.properties.QrcodeEngineProperties;
 import com.jlpay.qrcode.external.db.model.OrderStatusType;
@@ -18,17 +24,13 @@ import com.jlpay.qrcode.external.db.service.IOutQrPayOrderService;
 import com.jlpay.qrcode.external.db.service.QrPromotionInfoService;
 import com.jlpay.qrcode.external.support.ApiConstants;
 import com.jlpay.qrcode.external.support.QrcodeApiUtils;
-import com.jlpay.utils.Constants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.MDC;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * B2C扫码(被扫/条码)交易
@@ -37,8 +39,8 @@ import org.springframework.stereotype.Component;
  * @since 2021/5/5
  */
 @Slf4j
-@Component
 @RequiredArgsConstructor
+@Component(ApiConstants.MICROPAYASYN_SERVICE)
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class BarCodePayProcess extends AbstractExtQrcodeApiBusiProcess<MicropayRequest> {
 
@@ -51,6 +53,10 @@ public class BarCodePayProcess extends AbstractExtQrcodeApiBusiProcess<MicropayR
     private final QrPromotionInfoService qrPromotionInfoService;
 
     private final TimedQueryService timedQueryService;
+    
+    private final DelayCancelService delayCancelService;
+
+    private final ReactiveHttpTool httpTool;
 
     private OutQrPayOrder outQrPayOrder;
 
@@ -178,15 +184,12 @@ public class BarCodePayProcess extends AbstractExtQrcodeApiBusiProcess<MicropayR
                 channelBaseRequest.setCommandId(ApiConstants.CHN_ORDER_QUERY);
                 channelBaseRequest.setOrderId(outQrPayOrder.getOrderId());
 
-                HttpHeaders httpHeaders = new HttpHeaders();
-                httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-                httpHeaders.add(Constants.LOGID, MDC.get(Constants.LOGID));
-                String queryRequest = JSON.toJSONString(channelBaseRequest);
-                HttpEntity<String> httpEntity = new HttpEntity<>(queryRequest, httpHeaders);
-
-                log.info("订单查询,请求报文:{}", queryRequest);
-                String response = restTemplate.postForObject(qrcodeEngineProperties.getUrl() + ApiConstants.CHN_ORDER_QUERY, httpEntity, String.class);
-                log.info("查询结果:{}", response);
+                String response = httpTool.preparePost()
+                        .url(qrcodeEngineProperties.getUrl() + ApiConstants.CHN_ORDER_QUERY)
+                        .requestBody(channelBaseRequest)
+//                        .requestTimeout()
+                        .execute()
+                        .block();
 
                 chnResponse = JSON.parseObject(response, ChannelBaseResponse.class);
                 if (OrderStatusType.SUCCESS.getEnginStatus().equals(chnResponse.getStatus())) {
@@ -201,8 +204,8 @@ public class BarCodePayProcess extends AbstractExtQrcodeApiBusiProcess<MicropayR
             if (!OrderStatusType.SUCCESS.equals(orderStatusType)) {
                 log.info("达到最大查询次数,仍未成功,更改订单状态为失败,并发起撤销");
                 orderStatusType = OrderStatusType.FAIL;
-                chnResponse.setRetCode(Constants.SYSTEM_TIME_OUT);
-                chnResponse.setRetMsg(Constants.SYSTEM_TIME_OUT_MSG);
+                chnResponse.setRetCode(ExceptionCodes.NETWORK_EXCEPTION);
+                chnResponse.setRetMsg(ExceptionMessages.TRANSACTION_TIMEOUT_RETRY);
                 chnResponse.setChnRetMsg("交易超时,请重试.若已付款,将退回付款账户-JL");
 
                 doCancel(outQrPayOrder);
@@ -215,9 +218,9 @@ public class BarCodePayProcess extends AbstractExtQrcodeApiBusiProcess<MicropayR
 
     private void doCancel(OutQrPayOrder outQrPayOrder) {
         log.info("内部撤销任务,放入延迟队列");
-        DelayCancelMessgae delayCancelMessgae = new DelayCancelMessgae(qrcodeEngineConfig.getDelayCancelTime());
-        delayCancelMessgae.setOutQrPayOrder(outQrPayOrder);
-        delayCancelService.addToDelayQueue(delayCancelMessgae);
+        DelayCancelMessage DelayCancelMessage = new DelayCancelMessage(qrcodeEngineProperties.getDelayCancelTime());
+        DelayCancelMessage.setOutQrPayOrder(outQrPayOrder);
+        delayCancelService.addToDelayQueue(DelayCancelMessage);
     }
 
     /**
@@ -227,7 +230,6 @@ public class BarCodePayProcess extends AbstractExtQrcodeApiBusiProcess<MicropayR
      */
     private void updateOrder(String status) {
         log.debug("被扫:更新订单状态为 {}", OrderStatusType.getOutStautsType(status).name());
-        String oriStatus = outQrPayOrder.getStatus();
         outQrPayOrder.setStatus(status);
         outQrPayOrder.setRetCode(chnResponse.getRetCode());
         outQrPayOrder.setRetMsg(StringUtils.isNotEmpty(chnResponse.getChnRetMsg()) ? chnResponse.getChnRetMsg() : chnResponse.getRetMsg());
@@ -242,12 +244,7 @@ public class BarCodePayProcess extends AbstractExtQrcodeApiBusiProcess<MicropayR
         outQrPayOrder.setDiscountName(chnResponse.getDiscountName());
         outQrPayOrder.setCouponInfo(chnResponse.getCouponInfo());
 
-        boolean updated = outQrPayOrderService.updateWithStatus(outQrPayOrder, oriStatus);
-        if (!updated) {
-            log.info("交易存在并发更新");
-            outQrPayOrder = outQrPayOrderService.findById(outQrPayOrder.getOrderId());
-            return;
-        }
+        outQrPayOrderService.update(outQrPayOrder);
 
         if (OrderStatusType.SUCCESS.getOutStatus().equals(status) && StringUtils.isNotBlank(outQrPayOrder.getCouponInfo())) {
             QrPromotionInfo qrPromotionInfo = qrPromotionInfoService.queryByOrderId(outQrPayOrder.getOrderId());

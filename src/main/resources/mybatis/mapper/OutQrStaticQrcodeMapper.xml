@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jlpay.qrcode.api.db.mapper.OutQrStaticQrcodeMapper">
-    <resultMap id="BaseResultMap" type="com.jlpay.qrcode.api.db.model.OutQrStaticQrcode">
+<mapper namespace="com.jlpay.qrcode.external.db.mapper.OutQrStaticQrcodeMapper">
+    <resultMap id="BaseResultMap" type="com.jlpay.qrcode.external.db.model.OutQrStaticQrcode">
         <!--@mbg.generated-->
         <id column="ORDER_ID" jdbcType="VARCHAR" property="orderId"/>
         <result column="CHANNEL_ORDER_NO" jdbcType="VARCHAR" property="channelOrderNo"/>
@@ -38,7 +38,7 @@
         from T_OUT_QR_STATIC_QRCODE
         where ORDER_ID = #{orderId,jdbcType=VARCHAR}
     </select>
-    <select id="getValidNfcTag" resultType="com.jlpay.qrcode.api.db.model.OutQrStaticQrcode" resultMap="BaseResultMap">
+    <select id="getValidNfcTag" resultType="com.jlpay.qrcode.external.db.model.OutQrStaticQrcode" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from T_OUT_QR_STATIC_QRCODE
@@ -52,7 +52,7 @@
         delete from T_OUT_QR_STATIC_QRCODE
         where ORDER_ID = #{orderId,jdbcType=VARCHAR}
     </delete>
-    <insert id="insert" parameterType="com.jlpay.qrcode.api.db.model.OutQrStaticQrcode">
+    <insert id="insert" parameterType="com.jlpay.qrcode.external.db.model.OutQrStaticQrcode">
         <!--@mbg.generated-->
         insert into T_OUT_QR_STATIC_QRCODE (ORDER_ID, CHANNEL_ORDER_NO, MERCH_NO,
         CHANNEL_MERCH_NO, TERM_NO, AMOUNT,
@@ -69,7 +69,7 @@
         #{qrcodeType,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{orgCode,jdbcType=VARCHAR},
         #{deviceSn,jdbcType=VARCHAR}, #{nfcTag,jdbcType=VARCHAR}, #{nfcId,jdbcType=VARCHAR})
     </insert>
-    <insert id="insertSelective" parameterType="com.jlpay.qrcode.api.db.model.OutQrStaticQrcode">
+    <insert id="insertSelective" parameterType="com.jlpay.qrcode.external.db.model.OutQrStaticQrcode">
         <!--@mbg.generated-->
         insert into T_OUT_QR_STATIC_QRCODE
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -203,7 +203,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.jlpay.qrcode.api.db.model.OutQrStaticQrcode">
+    <update id="updateByPrimaryKeySelective" parameterType="com.jlpay.qrcode.external.db.model.OutQrStaticQrcode">
         <!--@mbg.generated-->
         update T_OUT_QR_STATIC_QRCODE
         <set>
@@ -270,7 +270,7 @@
         </set>
         where ORDER_ID = #{orderId,jdbcType=VARCHAR}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.jlpay.qrcode.api.db.model.OutQrStaticQrcode">
+    <update id="updateByPrimaryKey" parameterType="com.jlpay.qrcode.external.db.model.OutQrStaticQrcode">
         <!--@mbg.generated-->
         update T_OUT_QR_STATIC_QRCODE
         set CHANNEL_ORDER_NO = #{channelOrderNo,jdbcType=VARCHAR},

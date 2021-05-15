@@ -11,6 +11,7 @@ import com.jlpay.qrcode.external.commons.exceptions.def.BusiException;
 import com.jlpay.qrcode.external.commons.exceptions.def.SystemException;
 import com.jlpay.qrcode.external.commons.io.IoUtil;
 import com.jlpay.qrcode.external.commons.io.protocol.DefaultResponse;
+import com.jlpay.qrcode.external.support.ApiConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -56,9 +57,37 @@ public class ApiController {
 
     private Executor executor;
 
-    @PostMapping("/qrcode/trans/gateway/")
+    @PostMapping({"/qrcode/trans/gateway/", "/api/pay/"})
     public void qrcodeTransGateway(HttpServletRequest request, HttpServletResponse response) {
         HttpContext httpContext = createProcessContext(request, response, null);
+        processBusi(httpContext);
+    }
+
+    @PostMapping(value = "/qrcode/trans/gateway/{commandId}")
+    public void qrcodeTransGateway(HttpServletRequest request, HttpServletResponse response, @PathVariable String commandId) {
+        String tempCommandId = commandId.contains(ApiConstants.SERVICE_PREFIX) ? commandId : ApiConstants.SERVICE_PREFIX + commandId;
+        HttpContext httpContext = createProcessContext(request, response, tempCommandId);
+        processBusi(httpContext);
+    }
+
+    @PostMapping(value = "/api/pay/{commandId}")
+    public void api(HttpServletRequest request, HttpServletResponse response, @PathVariable String commandId) {
+        if ("micropay".equals(commandId)) {
+            commandId = "micropayasyn";
+        }
+        qrcodeTransGateway(request, response, commandId);
+    }
+
+    /**
+     * 接收业务请求
+     *
+     * @param uri
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/{uri}")
+    public void server(@PathVariable String uri, HttpServletRequest request, HttpServletResponse response) {
+        HttpContext httpContext = createProcessContext(request, response, uri);
         processBusi(httpContext);
     }
 
@@ -79,11 +108,10 @@ public class ApiController {
                 responseFromBusiException(httpContext, new BusiException(ExceptionCodes.BAD_REQUEST_PARAM, "找不到处理对象: " + requestName));
             } catch (BusiException e) {
                 responseFromBusiException(httpContext, e);
-            } catch (SystemException e) {
+            } catch (Exception e) {
                 log.error("ERROR", e);
                 responseFromException(httpContext, e);
             }
-
         }));
     }
 
@@ -132,35 +160,17 @@ public class ApiController {
     }
 
     @Setter
-    private static class HttpContext implements BusiProcessContext {
-
-        private String rawRequest;
-
-        private JSONObject parsedRequest;
-
-        private String requestName;
+    private static class HttpContext extends AbstractBusiProcessContext {
 
         private final AsyncContext asyncContext;
 
-        private final String logId;
-
-        private final long startTimestamp;
-
-        private boolean completed = false;
-
         private HttpContext(AsyncContext asyncContext, String logId) {
+            setLogId(logId);
             this.asyncContext = asyncContext;
-            this.logId = logId;
-            startTimestamp = System.currentTimeMillis();
         }
 
         public AsyncContext getAsyncContext() {
             return asyncContext;
-        }
-
-        @Override
-        public String getRequestName() {
-            return requestName;
         }
 
         @Override
@@ -169,14 +179,6 @@ public class ApiController {
                 rawRequest = new String(IoUtil.getRequestBody(asyncContext.getRequest()), StandardCharsets.UTF_8);
             }
             return rawRequest;
-        }
-
-        @Override
-        public JSONObject getParsedRequest() {
-            if (parsedRequest == null) {
-                parsedRequest = JSON.parseObject(rawRequest, JSONObject.class);
-            }
-            return parsedRequest;
         }
 
         @Override
@@ -192,16 +194,8 @@ public class ApiController {
         @Override
         public void completeProcess() {
             asyncContext.complete();
+            super.completeProcess();
         }
 
-        @Override
-        public String getLogId() {
-            return logId;
-        }
-
-        @Override
-        public boolean completed() {
-            return completed;
-        }
     }
 }
